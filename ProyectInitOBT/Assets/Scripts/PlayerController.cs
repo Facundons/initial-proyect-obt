@@ -4,45 +4,61 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     private float jumpforce = 1000.0f;
-    public GameObject mainChar;
-    private Rigidbody2D rb;
-    [SerializeField] LayerMask floorLayer;
-    private Animator mainCharAnim;
-
-    public PlayerController()
-    {
-    }
+    private Rigidbody2D rigidBody;
+    private Collider2D collider;
+    private Animator animator;
+    [SerializeField] GameObject floor;
+    private bool isGrounded;
 
     void Awake()
     {
-        rb = mainChar.GetComponent<Rigidbody2D>();
-        mainCharAnim = mainChar.GetComponent <Animator>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        collider = GetComponent<Collider2D>();
+        animator.SetBool("isGrounded", true);
+        animator.SetBool("gameStarted", true);
     }
 
-    void Start()
-    {
-        mainCharAnim.SetBool("isGrounded", true);
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        mainCharAnim.SetBool("isGrounded", isOnTheFloor());
-        if (Input.GetMouseButtonDown(0) && this.isOnTheFloor()) {
-            jump();
+        GameState currentGameState = GameController.GetInstance().GetGameState();
+        if (currentGameState == GameState.InGame) 
+        {
+            ControlMainChar();
         }
     }
 
-    private void jump()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        rb.AddForce(Vector2.up * jumpforce, ForceMode2D.Force);
+        CheckCollision(collision.collider.name);
     }
 
-    private bool isOnTheFloor()
+    private void CheckCollision(string name)
     {
-        return Physics2D.Raycast(mainChar.transform.position, Vector2.down, 0.88f, floorLayer);
+        if (name == floor.name)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
+
+    private void ControlMainChar()
+    {
+
+        if (Input.GetMouseButtonDown(0) && isGrounded)
+        {
+            Jump();
+        }
+    }
+
+    private void Jump()
+    {
+        rigidBody.AddForce(Vector2.up * jumpforce, ForceMode2D.Force);
+        animator.Play("Jump_Principal_Char");
+        isGrounded = false;
     }
 }
