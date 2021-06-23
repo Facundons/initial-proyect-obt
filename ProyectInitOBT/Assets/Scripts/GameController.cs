@@ -7,6 +7,17 @@ public class GameController : MonoBehaviour
     // Called when the game begins
     [SerializeField]private GameState gameState = GameState.Menu;
     private static GameController sharedInstance;
+    public UiController UiController;
+
+    public GameController()
+    {
+        PlayerController.OnDeath += OnPlayerDeath;
+    }
+
+    private void OnPlayerDeath(object sender, System.EventArgs e)
+    {
+        UiController.ShowGameOverMenu();
+    }
 
     private void Awake()
     {
@@ -26,44 +37,16 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         gameState = GameState.InGame;
-        ChangeGameState(gameState);
     }
 
-    // Called when mainChar dies
     public void GameOver()
     {
         gameState = GameState.GameOver;
-        ChangeGameState(gameState);
     }
 
-    // Called to go to the main menu
-    public void BackToMainMenu()
+    public void MainMenu()
     {
         gameState = GameState.Menu;
-        ChangeGameState(gameState);
     }
 
-    void ChangeGameState(GameState newGameState)
-    {
-        gameState = newGameState;
-        switch (newGameState)
-        {
-            case GameState.Menu:
-                //show menu
-                break;
-
-            case GameState.InGame:
-                //run game
-                break;
-
-            case GameState.GameOver:
-                //show game over anim and back to menu
-                break;
-
-            default:
-                //default block, go to main menu
-                break;
-        
-            }
-    }
 }

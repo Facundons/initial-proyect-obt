@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     [SerializeField] GameObject floor;
     private bool isGrounded;
+    [SerializeField] GameObject obstacle;
+    public static event EventHandler OnDeath; 
 
     void Awake()
     {
@@ -17,7 +21,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         collider = GetComponent<Collider2D>();
         animator.SetBool("isGrounded", true);
-        animator.SetBool("gameStarted", true);
+        animator.SetBool("gameStarted", false);
     }
 
     void Update()
@@ -40,6 +44,10 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
+        else if (name == obstacle.name)
+        {
+            OnDeath?.Invoke(this, EventArgs.Empty);
+        }
         else
         {
             isGrounded = false;
@@ -48,7 +56,10 @@ public class PlayerController : MonoBehaviour
 
     private void ControlMainChar()
     {
-
+        if(animator.GetBool("gameStarted") == false)
+        {
+            animator.SetBool("gameStarted", true);
+        }
         if (Input.GetMouseButtonDown(0) && isGrounded)
         {
             Jump();
