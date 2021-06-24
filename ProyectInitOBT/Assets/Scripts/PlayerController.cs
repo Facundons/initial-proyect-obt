@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigidBody;
     private Collider2D collider;
     private Animator animator;
-    [SerializeField] GameObject floor;
+    [SerializeField] string levelblock = "Block";
     private bool isGrounded;
-    [SerializeField] GameObject obstacle;
+    [SerializeField] string obstacle = "Obstacle";
     public static event EventHandler OnDeath; 
 
     void Awake()
@@ -40,11 +40,11 @@ public class PlayerController : MonoBehaviour
 
     private void CheckCollision(string name)
     {
-        if (name == floor.name)
+        if (name.Contains(levelblock))
         {
             isGrounded = true;
         }
-        else if (name == obstacle.name)
+        else if (name.Contains(obstacle))
         {
             OnDeath?.Invoke(this, EventArgs.Empty);
         }
@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+        transform.position += Vector3.right * Time.fixedDeltaTime;
     }
 
     private void Jump()
