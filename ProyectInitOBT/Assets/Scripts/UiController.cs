@@ -7,6 +7,7 @@ public class UiController : MonoBehaviour
 
     [SerializeField] GameObject botonStart;
     [SerializeField] GameObject floor;
+    [SerializeField] GameObject gameOverScreen;
 
     private void Awake()
     {
@@ -35,7 +36,8 @@ public class UiController : MonoBehaviour
 
     public void ShowGameOverMenu()
     {
-        //TODO: setActive buttons and gameover menu
+        GameController.GetInstance().GameOver();
+        gameOverScreen.SetActive(true);
     }
 
 }

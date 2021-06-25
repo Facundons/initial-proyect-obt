@@ -5,18 +5,25 @@ using UnityEngine;
 
 public class BlockController : MonoBehaviour
 {
-    public static event EventHandler OnTrigger;
+    public static event EventHandler OnCharacterCollision;
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    //private void OnTriggerEnter2D(Collider2D collider)
+    //{
+    //    CheckCharacterCollision(collider);
+    //}
+
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        OnTrigger?.Invoke(this, EventArgs.Empty);
+        CheckCharacterCollision(collision);
     }
 
-    private void CheckCollider2d(string name)
+    private void CheckCharacterCollision(Collider2D collider)
     {
-        //if (name == initLevelBlock.transform.GetChild(5).name)
-        //{
-        //    GameObject.Instantiate(listOfLevelBlocks[Random.Range(0, 2)]);
-        //}
+        if (collider.name.Contains("Character"))
+        {
+            OnCharacterCollision?.Invoke(this, EventArgs.Empty);
+        }       
     }
+
+
 }
