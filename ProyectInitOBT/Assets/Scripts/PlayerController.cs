@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     [SerializeField] string levelblock = "Block";
     private bool isGrounded;
-    [SerializeField] string obstacle = "Obstacle";
-    public static event EventHandler OnDeath; 
+    [SerializeField] string enemy = "Obstacle";
+    public static event EventHandler OnDeath;
 
     void Awake()
     {
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        GameState currentGameState = GameController.GetInstance().GetGameState();
+        GameState currentGameState = GameController.Instance.GetGameState();
         if (currentGameState == GameState.InGame) 
         {
             ControlMainChar();
@@ -44,13 +44,13 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
-        else if (name.Contains(obstacle))
-        {
-            OnDeath?.Invoke(this, EventArgs.Empty);
-        }
         else
         {
             isGrounded = false;
+        }
+        if (name.Contains(enemy))
+        {
+            OnDeath?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-        transform.position += Vector3.right * Time.fixedDeltaTime;
     }
 
     private void Jump()

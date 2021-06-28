@@ -1,42 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UiController : MonoBehaviour
 {
-
-    [SerializeField] GameObject botonStart;
-    [SerializeField] GameObject floor;
-    [SerializeField] GameObject gameOverScreen;
-
-    private void Awake()
-    {
-
-    }
-    private void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject botonStart;
+    [SerializeField] private GameObject gameOverScreen;
+    public static event EventHandler onStartGame;
 
     public void StartGameFromMainMenu()
     {
-        GameController.GetInstance().StartGame();
+        GameController.Instance.StartGame();
+        onStartGame?.Invoke(this, EventArgs.Empty);
         botonStart.SetActive(false);
     }
 
     public void StartGameFromGameOverMenu()
     {
-        GameController.GetInstance().StartGame();
-    }
-
-    public void GoBackToMainMenu()
-    {
-        GameController.GetInstance().StartGame();
+        GameController.Instance.StartGame();
     }
 
     public void ShowGameOverMenu()
     {
-        GameController.GetInstance().GameOver();
+        botonStart.SetActive(true);
+        StartCoroutine(GameOverScreenCoroutine());
+    }
+
+    public IEnumerator GameOverScreenCoroutine()
+    {
+        yield return new WaitForSeconds(3);
+        Debug.Log(gameOverScreen != null);
         gameOverScreen.SetActive(true);
     }
 

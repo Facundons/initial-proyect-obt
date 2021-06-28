@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    [SerializeField] List<GameObject> listOfLevelBlocks;
-    [SerializeField] GameObject initLevelBlock;
+    [SerializeField] GameObject firstLevelBlock;
+    [SerializeField] GameObject secondLevelBlock;
+    [SerializeField] GameObject thirdLevelBlock;
     private Collider2D collider;
-    private int flagForFirstBlockPosition = 0;
+    private int flagForBlockPosition = 0;
     GameObject lastBlock;
     private Transform positionOfNextBlock;
-    private int randomExecutionNumber;
 
     public void Awake()
     {
@@ -19,35 +19,27 @@ public class LevelGenerator : MonoBehaviour
 
     private void OnBlockCollision(object sender, System.EventArgs e)
     {
-        int randomNum;
-        if (flagForFirstBlockPosition == 0)
+        if (flagForBlockPosition == 0)
         {
-            randomNum = GetRandomNumber();
-            flagForFirstBlockPosition++;
-            randomExecutionNumber = randomNum;
-            lastBlock = initLevelBlock;
+            lastBlock = secondLevelBlock;
             positionOfNextBlock = lastBlock.transform.GetChild(4).transform;
-            listOfLevelBlocks[randomNum].transform.SetPositionAndRotation(positionOfNextBlock.position, positionOfNextBlock.rotation);
-            listOfLevelBlocks[randomNum].SetActive(true);
-            lastBlock = listOfLevelBlocks[randomNum];
+            thirdLevelBlock.transform.SetPositionAndRotation(positionOfNextBlock.position, positionOfNextBlock.rotation);
+            flagForBlockPosition = 1;
+        }
+        else if (flagForBlockPosition == 1)
+        {
+            lastBlock = thirdLevelBlock;
+            positionOfNextBlock = lastBlock.transform.GetChild(4).transform;
+            firstLevelBlock.transform.SetPositionAndRotation(positionOfNextBlock.position, positionOfNextBlock.rotation);
+            flagForBlockPosition = 2;
         }
         else
         {
-            do
-            {
-                randomNum = GetRandomNumber();
-            } while (randomNum == randomExecutionNumber);
-            randomExecutionNumber = randomNum;
+            lastBlock = firstLevelBlock;
             positionOfNextBlock = lastBlock.transform.GetChild(4).transform;
-            lastBlock = listOfLevelBlocks[randomNum];
-            listOfLevelBlocks[randomNum].transform.SetPositionAndRotation(positionOfNextBlock.position, positionOfNextBlock.rotation);
-            listOfLevelBlocks[randomNum].SetActive(true);
+            secondLevelBlock.transform.SetPositionAndRotation(positionOfNextBlock.position, positionOfNextBlock.rotation);
+            flagForBlockPosition = 0;
         }
-    }
-
-    private int GetRandomNumber()
-    {
-       return Random.Range(0, listOfLevelBlocks.Count);
     }
 
 }

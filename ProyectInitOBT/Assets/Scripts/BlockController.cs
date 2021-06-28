@@ -7,11 +7,6 @@ public class BlockController : MonoBehaviour
 {
     public static event EventHandler OnCharacterCollision;
 
-    //private void OnTriggerEnter2D(Collider2D collider)
-    //{
-    //    CheckCharacterCollision(collider);
-    //}
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         CheckCharacterCollision(collision);
@@ -23,6 +18,14 @@ public class BlockController : MonoBehaviour
         {
             OnCharacterCollision?.Invoke(this, EventArgs.Empty);
         }       
+    }
+
+    private void Update()
+    {
+        if (GameController.Instance.GetGameState() == GameState.InGame)
+        {
+            transform.position += Vector3.left * Time.fixedDeltaTime * GameController.GameSpeed;
+        }
     }
 
 
