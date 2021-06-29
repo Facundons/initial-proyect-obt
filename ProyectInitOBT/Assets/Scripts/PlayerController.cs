@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         }
         if (name.Contains(enemy))
         {
+            animator.Play("Death_Principal_Char");
             OnDeath?.Invoke(this, EventArgs.Empty);
         }
     }

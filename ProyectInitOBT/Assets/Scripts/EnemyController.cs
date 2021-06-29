@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,9 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
 
+    private void Start()
+    {
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CheckCollisionWithDestroyer(collision);
@@ -12,11 +16,12 @@ public class EnemyController : MonoBehaviour
 
     private void CheckCollisionWithDestroyer(Collider2D collision)
     {
-        if (collision.name.Contains("Destroyer"))
+        if (collision.name.Contains("EnemiesManager"))
         {
-            Destroy(gameObject);
+                gameObject.SetActive(false);
         }
     }
+
     private void Update()
     {
         if (GameController.Instance.GetGameState() == GameState.InGame)

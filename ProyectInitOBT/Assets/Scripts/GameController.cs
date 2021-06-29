@@ -21,7 +21,8 @@ public class GameController : MonoBehaviour
             if (instance == null)
             {
                 var gameController = new GameObject();
-                instance = gameController.AddComponent<GameController>();              
+                instance = gameController.AddComponent<GameController>();
+                instance.name = "GameController";
             }
             return instance;
         }
@@ -35,6 +36,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         PlayerController.OnDeath += OnPlayerDeath;
+        UiController.onRestartGame += OnRestartGame;
         UiController = FindObjectOfType<UiController>();
         mainChar = FindObjectOfType<PlayerController>();
     }
@@ -43,19 +45,25 @@ public class GameController : MonoBehaviour
     {
         while (GameSpeed < maxSpeed)
         {
+            Debug.Log(GameSpeed);
             GameSpeed += acceleration;
-            Debug.Log("game speed is: " + GameSpeed);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(5);
         }
         yield break;
     }
 
     private void OnPlayerDeath(object sender, System.EventArgs e)
     {
-        UiController.ShowGameOverMenu();
-        mainChar.gameObject.SetActive(false);
         GameOver();
+        UiController.ShowGameOverMenu();
+        StartCoroutine(WaitForDeathAnimationCourutine());
         GameSpeed = 0;
+    }
+
+    private void OnRestartGame(object sender, System.EventArgs e)
+    {
+        GameSpeed = 1.0f;
+        mainChar.gameObject.SetActive(true);
     }
 
     public GameState GetGameState()
@@ -79,4 +87,9 @@ public class GameController : MonoBehaviour
         gameState = GameState.Menu;
     }
 
+    IEnumerator WaitForDeathAnimationCourutine()
+    {
+        yield return new WaitForSeconds(3);
+        mainChar.gameObject.SetActive(false);
+    }
 }
