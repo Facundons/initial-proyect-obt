@@ -33,6 +33,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        animator.SetBool("isGrounded", true);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         CheckCollision(collision.collider.name);
@@ -43,10 +48,7 @@ public class PlayerController : MonoBehaviour
         if (name.Contains(levelblock))
         {
             isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
+            animator.SetBool("isGrounded", true);
         }
         if (name.Contains(enemy))
         {
@@ -72,5 +74,6 @@ public class PlayerController : MonoBehaviour
         rigidBody.AddForce(Vector2.up * jumpforce, ForceMode2D.Force);
         animator.Play("Jump_Principal_Char");
         isGrounded = false;
+        animator.SetBool("isGrounded", false);
     }
 }

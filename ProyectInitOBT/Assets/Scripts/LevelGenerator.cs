@@ -15,6 +15,7 @@ public class LevelGenerator : MonoBehaviour
     public void Awake()
     {
         BlockController.OnCharacterCollision += OnBlockCollision;
+        UiController.onRestartGame += OnRestartGame;
     }
 
     private void OnBlockCollision(object sender, System.EventArgs e)
@@ -42,4 +43,11 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    private void OnRestartGame(object sender, System.EventArgs e)
+    {
+        firstLevelBlock.transform.SetPositionAndRotation(new Vector2(0f, -4.25f), Quaternion.identity);
+        secondLevelBlock.transform.SetPositionAndRotation(new Vector2(18.31f, -4.25f), Quaternion.identity);
+        thirdLevelBlock.transform.SetPositionAndRotation(new Vector2(36.64f, -4.25f), Quaternion.identity);
+        flagForBlockPosition = 0;
+    }
 }

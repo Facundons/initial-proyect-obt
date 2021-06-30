@@ -45,7 +45,6 @@ public class GameController : MonoBehaviour
     {
         while (GameSpeed < maxSpeed)
         {
-            Debug.Log(GameSpeed);
             GameSpeed += acceleration;
             yield return new WaitForSeconds(5);
         }
@@ -64,6 +63,8 @@ public class GameController : MonoBehaviour
     {
         GameSpeed = 1.0f;
         mainChar.gameObject.SetActive(true);
+        Vector2 startingPositionMainChar = new Vector2(-5.86f, -1.95f);
+        mainChar.gameObject.transform.SetPositionAndRotation(startingPositionMainChar, Quaternion.identity);
     }
 
     public GameState GetGameState()

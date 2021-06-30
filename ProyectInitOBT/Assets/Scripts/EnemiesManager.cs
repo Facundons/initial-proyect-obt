@@ -31,11 +31,7 @@ public class EnemiesManager : MonoBehaviour
 
     private void StopGenerator(object sender, System.EventArgs e)
     {
-        foreach (var groundEnemy in groundEnemyList)
-        {
-            Destroy(groundEnemy.gameObject);
-        }
-        groundEnemyList.Clear();
+        StartCoroutine(DestroyEnemies());
         pause = true;
     }
 
@@ -50,5 +46,15 @@ public class EnemiesManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(0.5f, generationSpeed));
             yield return new WaitUntil(() => { return pause == false;});
         }
+    }
+
+    IEnumerator DestroyEnemies()
+    {
+        yield return new WaitForSeconds(3);
+        foreach (var groundEnemy in groundEnemyList)
+        {
+            Destroy(groundEnemy.gameObject);
+        }
+        groundEnemyList.Clear();
     }
 }
