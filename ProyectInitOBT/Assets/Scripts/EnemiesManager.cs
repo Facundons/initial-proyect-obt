@@ -40,7 +40,7 @@ public class EnemiesManager : MonoBehaviour
         while (GameController.Instance.GetGameState() == GameState.InGame)
         {
             float generationSpeed = 8/GameController.GameSpeed;
-            Vector2 instantiatedEnemyPosition = new Vector2(10f, -3.25f);
+            Vector2 instantiatedEnemyPosition = new Vector2(10f, -3.30f);
             GameObject instantiatedEnemy = Instantiate(groundEnemyPrefab, instantiatedEnemyPosition, Quaternion.identity);
             groundEnemyList.Add(instantiatedEnemy.GetComponent<EnemyController>());
             yield return new WaitForSeconds(Random.Range(0.5f, generationSpeed));
