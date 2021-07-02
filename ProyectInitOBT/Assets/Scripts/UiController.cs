@@ -1,15 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using System.Net;
-using System.Web;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-//using Newtonsoft.Json;
 
 public class UiController : MonoBehaviour
 {
@@ -21,42 +14,29 @@ public class UiController : MonoBehaviour
     [SerializeField] private GameObject retryButton;
     [SerializeField] private GameObject botonStart;
     [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private DataManager dataManager;
     private float scoreCounter;
     private float highScoreNumber = 0;
     public static event EventHandler onStartGame;
     public static event EventHandler onRestartGame;
     private string txtPath = @"C:\Users\pc\Documents\Repos\initial-proyect-obt\ProyectInitOBT\Assets\HighScores\HighScores.txt";
-    private string apiPath = $"http://worldtimeapi.org/api/timezone/America/Argentina/Tucuman";
-    private static HttpClient apiClient;
-    private ApiModel apiModel = new ApiModel();
+    
+
     private void Awake()
     {
         highScoreText.text = File.ReadAllText(txtPath);
         highScoreNumber = int.Parse(highScoreText.text);
-        InitializeClient();
+        dataManager.onDateTimeRecieved += OnDateTimeRecieved;
     }
 
-    private void InitializeClient()
+    private void OnDateTimeRecieved(object sender, DateTimeApiModel dateTimeModel)
     {
-        if (apiClient == null)
-        {
-            apiClient = new HttpClient();
-            apiClient.DefaultRequestHeaders.Accept.Clear();
-            apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
+        WriteHighScoreToTxt(dateTimeModel);
     }
 
-    private async Task RequestToApi()
+    private void WriteHighScoreToTxt(DateTimeApiModel dateTimeModel)
     {
-        using (HttpResponseMessage response = await apiClient.GetAsync(apiPath))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                HttpResponseMessage customersRm = await apiClient.GetAsync(apiPath);
-                apiModel.Datetime = await customersRm.Content.ReadAsStringAsync();
-                //List<ApiModel> custs = JsonConvert.DeserializeObject<ApiModel>(apiModel.Datetime);
-            }
-        }
+        //TODO: write HighScoe DateTime to txt
     }
 
     public void StartGameFromMainMenu()
@@ -93,6 +73,7 @@ public class UiController : MonoBehaviour
         yield return new WaitForSeconds(3);
         if (scoreCounter > highScoreNumber)
         {
+            dataManager.GetDateTimeFromApi();
             highScore.transform.SetPositionAndRotation(new Vector2(2.5f, 4.7f), Quaternion.identity);
             highScoreNumber = scoreCounter;
             File.WriteAllText(txtPath, highScoreNumber.ToString());
