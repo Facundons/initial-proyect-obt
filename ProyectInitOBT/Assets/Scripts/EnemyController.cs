@@ -11,7 +11,8 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.name.Contains("EnemiesManager"))
         {
-                gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 

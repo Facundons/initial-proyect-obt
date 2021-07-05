@@ -52,7 +52,10 @@ public class EnemiesManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         foreach (var groundEnemy in groundEnemyList)
         {
-            Destroy(groundEnemy.gameObject);
+            if (groundEnemy != null)
+            {
+                Destroy(groundEnemy.gameObject);
+            }
         }
         groundEnemyList.Clear();
     }
