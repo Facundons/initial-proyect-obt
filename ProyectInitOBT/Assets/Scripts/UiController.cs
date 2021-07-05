@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 public class UiController : MonoBehaviour
 {
@@ -24,9 +26,20 @@ public class UiController : MonoBehaviour
 
     private void Awake()
     {
-        highScoreText.text = File.ReadAllText(txtPath);
+        GetHighScoreFromTxt();
         highScoreNumber = int.Parse(highScoreText.text);
         dataManager.onDateTimeRecieved += OnDateTimeRecieved;
+    }
+
+    private void GetHighScoreFromTxt()
+    {
+        int index = 0;
+        highScoreText.text = File.ReadLines(txtPath).Last();
+        do
+        {
+            index++;
+        } while (!highScoreText.text.Substring(11, index).Contains("-"));
+        highScoreText.text = highScoreText.text.Substring(11, index-1);
     }
 
     private void OnDateTimeRecieved(object sender, DateTimeApiModel dateTimeModel)
@@ -36,7 +49,13 @@ public class UiController : MonoBehaviour
 
     private void WriteHighScoreToTxt(DateTimeApiModel dateTimeModel)
     {
-        //TODO: write HighScoe DateTime to txt
+        highScoreNumber = scoreCounter;
+        string date = dateTimeModel.datetime.Substring(0, 10);
+        string time = dateTimeModel.datetime.Substring(11, 8);
+        string score = highScoreNumber.ToString();
+        string format = string.Format("High Score: {0} - Date: {1} - Time: {2}", score, date, time);
+        File.AppendAllText(txtPath, format + Environment.NewLine);
+        highScoreText.text = scoreText.text;
     }
 
     public void StartGameFromMainMenu()
@@ -74,10 +93,7 @@ public class UiController : MonoBehaviour
         if (scoreCounter > highScoreNumber)
         {
             dataManager.GetDateTimeFromApi();
-            highScore.transform.SetPositionAndRotation(new Vector2(2.5f, 4.7f), Quaternion.identity);
-            highScoreNumber = scoreCounter;
-            File.WriteAllText(txtPath, highScoreNumber.ToString());
-            highScoreText.text = scoreText.text;
+            highScore.transform.SetPositionAndRotation(new Vector2(2.5f, 4.7f), Quaternion.identity);         
             particles.SetActive(true);
             score.SetActive(false);
         }
