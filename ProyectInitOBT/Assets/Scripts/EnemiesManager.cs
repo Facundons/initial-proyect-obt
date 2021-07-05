@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +5,10 @@ using Random = UnityEngine.Random;
 
 public class EnemiesManager : MonoBehaviour
 {
-    private List<EnemyController> groundEnemyList;
     [SerializeField] private GameObject groundEnemyPrefab;
+    private List<EnemyController> groundEnemyList;
+    private bool pause; 
 
-    private bool pause;
     void Awake()
     {
         groundEnemyList = new List<EnemyController>();
@@ -39,7 +38,7 @@ public class EnemiesManager : MonoBehaviour
     {
         while (GameController.Instance.GetGameState() == GameState.InGame)
         {
-            float generationSpeed = 8/GameController.GameSpeed;
+            float generationSpeed = 32/GameController.GameSpeed;
             Vector2 instantiatedEnemyPosition = new Vector2(10f, -3.30f);
             GameObject instantiatedEnemy = Instantiate(groundEnemyPrefab, instantiatedEnemyPosition, Quaternion.identity);
             groundEnemyList.Add(instantiatedEnemy.GetComponent<EnemyController>());

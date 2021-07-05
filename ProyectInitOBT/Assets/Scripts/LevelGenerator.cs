@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
@@ -7,9 +5,8 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] GameObject firstLevelBlock;
     [SerializeField] GameObject secondLevelBlock;
     [SerializeField] GameObject thirdLevelBlock;
-    private Collider2D collider;
     private int flagForBlockPosition = 0;
-    GameObject lastBlock;
+    private GameObject lastBlock;
     private Transform positionOfNextBlock;
 
     public void Awake()

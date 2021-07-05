@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BlockController : MonoBehaviour
@@ -20,13 +18,11 @@ public class BlockController : MonoBehaviour
         }       
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (GameController.Instance.GetGameState() == GameState.InGame)
         {
             transform.position += Vector3.left * Time.fixedDeltaTime * GameController.GameSpeed;
         }
     }
-
-
 }

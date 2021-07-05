@@ -1,25 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 public class PlayerController : MonoBehaviour
 {
+    public static event EventHandler OnDeath;
+    private string levelblock = "Block";
+    private string enemy = "Obstacle";
+    private bool isGrounded;
     private float jumpforce = 1300.0f;
     private Rigidbody2D rigidBody;
-    private Collider2D collider;
-    private Animator animator;
-    [SerializeField] string levelblock = "Block";
-    private bool isGrounded;
-    [SerializeField] string enemy = "Obstacle";
-    public static event EventHandler OnDeath;
+    private Animator animator;   
 
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        collider = GetComponent<Collider2D>();
         animator.SetBool("isGrounded", true);
         animator.SetBool("gameStarted", false);
     }

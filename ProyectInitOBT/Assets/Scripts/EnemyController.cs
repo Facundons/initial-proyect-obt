@@ -1,14 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    private void Start()
-    {
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CheckCollisionWithDestroyer(collision);
@@ -22,7 +15,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (GameController.Instance.GetGameState() == GameState.InGame)
         {

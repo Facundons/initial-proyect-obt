@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TreeController : MonoBehaviour
@@ -19,7 +18,7 @@ public class TreeController : MonoBehaviour
         transform.SetPositionAndRotation(new Vector2(15.52f, -1f), Quaternion.identity);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (GameController.Instance.GetGameState() == GameState.InGame)
         {

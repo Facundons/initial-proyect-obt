@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ParalaxController : MonoBehaviour
 {
     [SerializeField] private int speed;
     [SerializeField] private Vector2 respawnPosition;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.name.Contains("Background"))
@@ -14,7 +13,7 @@ public class ParalaxController : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (GameController.Instance.GetGameState() == GameState.InGame)
         {

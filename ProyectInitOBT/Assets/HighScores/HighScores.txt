@@ -1,4 +1,4 @@
 High Score: 0 - Date: null - Time: null 
-High Score: 5 - Date: 2021-07-05 - Time: 12:10:51
-High Score: 22 - Date: 2021-07-05 - Time: 12:11:06
-High Score: 224 - Date: 2021-07-05 - Time: 12:11:06
+High Score: 7 - Date: 2021-07-05 - Time: 13:58:43
+High Score: 8 - Date: 2021-07-05 - Time: 13:59:41
+High Score: 23 - Date: 2021-07-05 - Time: 14:02:33

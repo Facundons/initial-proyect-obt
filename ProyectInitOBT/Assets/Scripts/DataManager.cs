@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -24,7 +23,4 @@ public class DataManager : MonoBehaviour
         result = JsonUtility.FromJson<DateTimeApiModel>(request.downloadHandler.text);
         onDateTimeRecieved?.Invoke(this,result);
     }
-
-
-
 }

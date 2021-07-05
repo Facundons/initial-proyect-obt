@@ -1,19 +1,16 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public static float GameSpeed = 4.0f;
     [SerializeField] private GameState gameState = GameState.Menu;
     [SerializeField] private UiController UiController;
-    public static float GameSpeed = 1.0f;
-    private float acceleration = 0.1f;
-    private float maxSpeed = 4.0f;
-    private int flag = 0;
     [SerializeField] private PlayerController mainChar;
-
+    private float acceleration = 0.4f;
+    private float maxSpeed = 16.0f;  
     private static GameController instance;
+
     public static GameController Instance 
     {
         get
@@ -28,13 +25,9 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private GameController()
-    {
-
-    }
-
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         PlayerController.OnDeath += OnPlayerDeath;
         UiController.onRestartGame += OnRestartGame;
         UiController = FindObjectOfType<UiController>();
@@ -61,7 +54,7 @@ public class GameController : MonoBehaviour
 
     private void OnRestartGame(object sender, System.EventArgs e)
     {
-        GameSpeed = 1.0f;
+        GameSpeed = 4.0f;
         mainChar.gameObject.SetActive(true);
         Vector2 startingPositionMainChar = new Vector2(-5.86f, -1.95f);
         mainChar.gameObject.transform.SetPositionAndRotation(startingPositionMainChar, Quaternion.identity);

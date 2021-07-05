@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 public class UiController : MonoBehaviour
 {
+    public static event EventHandler onStartGame;
+    public static event EventHandler onRestartGame;
     [SerializeField] private GameObject score;
     [SerializeField] private Text scoreText;
     [SerializeField] private Text highScoreText;
@@ -19,10 +20,7 @@ public class UiController : MonoBehaviour
     [SerializeField] private DataManager dataManager;
     private float scoreCounter;
     private float highScoreNumber = 0;
-    public static event EventHandler onStartGame;
-    public static event EventHandler onRestartGame;
     private string txtPath = @"C:\Users\pc\Documents\Repos\initial-proyect-obt\ProyectInitOBT\Assets\HighScores\HighScores.txt";
-    
 
     private void Awake()
     {
@@ -105,7 +103,7 @@ public class UiController : MonoBehaviour
         retryButton.SetActive(true);
         gameOverScreen.SetActive(true);
     }
-
+    
     IEnumerator StartScoreCountingCoroutine()
     {
         highScore.transform.SetPositionAndRotation(new Vector2(9f, 4.7f), Quaternion.identity);
@@ -117,5 +115,4 @@ public class UiController : MonoBehaviour
             scoreText.text = scoreCounter.ToString();
         }
     }
-
 }
