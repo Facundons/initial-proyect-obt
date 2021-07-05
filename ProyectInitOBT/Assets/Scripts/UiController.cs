@@ -20,10 +20,11 @@ public class UiController : MonoBehaviour
     [SerializeField] private DataManager dataManager;
     private float scoreCounter;
     private float highScoreNumber = 0;
-    private string txtPath = @"C:\Users\pc\Documents\Repos\initial-proyect-obt\ProyectInitOBT\Assets\HighScores\HighScores.txt";
+    private string txtPath; 
 
     private void Awake()
     {
+        txtPath = Application.dataPath + "\\HighScores\\HighScores.txt";
         GetHighScoreFromTxt();
         highScoreNumber = int.Parse(highScoreText.text);
         dataManager.onDateTimeRecieved += OnDateTimeRecieved;
