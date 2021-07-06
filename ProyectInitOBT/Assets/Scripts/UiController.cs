@@ -24,10 +24,23 @@ public class UiController : MonoBehaviour
 
     private void Awake()
     {
-        txtPath = Application.dataPath + "\\HighScores\\HighScores.txt";
+        txtPath = Application.persistentDataPath + "\\HighScores\\HighScores.txt";
+        CreateHighScoreFileDirectory();
         GetHighScoreFromTxt();
         highScoreNumber = int.Parse(highScoreText.text);
         dataManager.onDateTimeRecieved += OnDateTimeRecieved;
+    }
+
+    private void CreateHighScoreFileDirectory()
+    {
+        if (!Directory.Exists(Application.persistentDataPath + "\\HighScores"))
+        {
+            DirectoryInfo HighScores = Directory.CreateDirectory(Application.persistentDataPath + "\\HighScores");
+            if (!File.Exists(txtPath))
+            {
+                File.WriteAllText(txtPath, "High Score: 0 - Date: null - Time: null" + Environment.NewLine);
+            }
+        }
     }
 
     private void GetHighScoreFromTxt()
